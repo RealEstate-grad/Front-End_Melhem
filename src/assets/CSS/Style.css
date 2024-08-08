@@ -1,0 +1,176 @@
+/* container */
+
+.container {
+    height: 87dvh;
+    overflow-y: scroll;
+    width: 100%;
+    position: relative;
+}
+
+/*  */
+/* card glasmorphism */
+
+.card-glasmorphism {
+    backdrop-filter: blur(14px) saturate(168%);
+    -webkit-backdrop-filter: blur(14px) saturate(168%);
+    background-color: rgba(10, 16, 27, 0.75);
+    border-radius: 12px;
+}
+
+/*  */
+/* display and align */
+
+.d-block {
+    display: block;
+    position: relative;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.j-c-c {
+    justify-content: center;
+}
+
+.a-i-c {
+    align-items: center;
+}
+
+/*  */
+/* width and height */
+
+.w-50 {
+    width: 50%;
+}
+
+.w-75 {
+    width: 75%;
+}
+
+.h-50 {
+    height: 50%;
+}
+
+.h-100 {
+    height: 100%;
+}
+
+.overflow-y-scroll {
+    overflow-y: scroll;
+}
+
+/*  */
+/* padding and margin */
+
+.p-3 {
+    padding: 30px;
+}
+
+.py-3 {
+    padding: 30px 0;
+}
+
+.py-5 {
+    padding: 50px 0;
+}
+
+.my-3 {
+    margin: 30px 0;
+}
+
+
+.mx-1 {
+    margin: 0 10px;
+}
+
+.mx-3 {
+    margin: 0 30px;
+}
+
+/*  */
+/* font colors */
+
+.font-white {
+    color: whitesmoke;
+}
+
+/*  */
+/* inputs */
+
+.my-inp {
+    border: none;
+    width: 100%;
+    height: 50px;
+    border-radius: 10px;
+    padding: 0 0 0 20px;
+    font-size: 16px;
+}
+
+.SubmitButton {
+    width: 50%;
+    border: none;
+    background-color: rgb(255, 187, 0);
+    font-size: 20px;
+    padding: 10px 0;
+    border-radius: 10px;
+    color: whitesmoke;
+    transition: 0.5s ease-in-out;
+    cursor: pointer;
+}
+
+.SubmitButton:hover {
+    background-color: rgb(210, 154, 0);
+}
+
+.my-inp-drp {
+    width: 130px;
+    height: 100%;
+    padding: 10px;
+    border: none;
+    font-size: 16px;
+    color: black;
+}
+
+.my-inp-drp:focus {
+    outline: none !important;
+}
+
+/*  */
+/* password eye */
+
+.show-hide-container {
+    position: absolute;
+    color: black;
+    z-index: 2;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    cursor: pointer;
+}
+
+/*  */
+/* country code dropdown */
+
+.country-code-dropdown {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 2;
+    cursor: pointer;
+}
+
+.my-drp-down {
+    position: absolute;
+    height: 100px;
+    overflow-y: scroll;
+    width: 130px;
+    padding: 0 10px;
+    bottom: -100px;
+    color: black;
+    background-color: whitesmoke;
+    text-align: start;
+}
+
+/*  */
