@@ -5,7 +5,7 @@
     <!--  -->
     <div
       class="container d-flex j-c-c a-i-c"
-      style="height: max-content; overflow-y: hidden"
+      style="height: max-content; overflow-y: hidden; padding: 20px 0"
     >
       <div class="card-glasmorphism w-50 p-3 font-white d-flex j-c-c a-i-c">
         <div class="d-block w-75">
@@ -69,7 +69,7 @@
               />
             </div>
             <!--  -->
-            <!-- Last name -->
+            <!-- gender -->
             <div class="d-block my-3">
               <select name="" id="" v-model="gender" class="my-inp">
                 <option selected disabled value="Please choose gender">
@@ -304,7 +304,7 @@
               <!-- Cities -->
               <div class="d-block my-3">
                 <h2>City</h2>
-                <select v-model="city" class="my-inp" @change="getCityIndex()">
+                <select v-model="city" class="my-inp" @change="getCityId()">
                   <option disabled selected value="Please choose a city">
                     Please choose a city
                   </option>
@@ -321,16 +321,12 @@
               <!-- places -->
               <div class="d-block my-3">
                 <h2>Place</h2>
-                <select
-                  v-model="place"
-                  class="my-inp"
-                  @change="getPlaceIndex()"
-                >
+                <select v-model="place" class="my-inp" @change="getPlaceId()">
                   <option disabled selected value="Please choose a place">
                     Please choose a place
                   </option>
                   <option
-                    v-for="(item, index) in places[city_index]"
+                    v-for="(item, index) in places"
                     :key="index"
                     :value="item.name"
                   >
@@ -471,10 +467,10 @@ export default {
     return {
       // data
       // get data
-      cities: [{ id: 1, name: "Damascus" }],
-      places: [{ 0: { id: 1, name: "Baramkeh" } }],
+      cities: [],
+      places: [],
       place: "Please choose a place",
-      city_index: "",
+      city_id: "",
       city: "Please choose a city",
       //
       // user
@@ -507,6 +503,7 @@ export default {
       path: "M12 9a3 3 0 0 0-3 3a3 3 0 0 0 3 3a3 3 0 0 0 3-3a3 3 0 0 0-3-3m0 8a5 5 0 0 1-5-5a5 5 0 0 1 5-5a5 5 0 0 1 5 5a5 5 0 0 1-5 5m0-12.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5",
       path2:
         "M12 9a3 3 0 0 0-3 3a3 3 0 0 0 3 3a3 3 0 0 0 3-3a3 3 0 0 0-3-3m0 8a5 5 0 0 1-5-5a5 5 0 0 1 5-5a5 5 0 0 1 5 5a5 5 0 0 1-5 5m0-12.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5",
+
       phonecodes: {
         BD: "+880",
         BE: "+32",
@@ -819,22 +816,29 @@ export default {
     RemoveTime(index) {
       this.work_days.splice(index, 1);
     },
-    getCityIndex() {
+    getCityId() {
       for (let index = 0; index < this.cities.length; index++) {
         if (this.cities[index].name == this.city) {
-          this.city_index = index;
+          this.city_id = this.cities[index].id;
+          this.getPlaces();
           return;
         }
       }
     },
-    getPlaceIndex() {
-      for (
-        let index = 0;
-        index < Object.keys(this.places[this.city_index]).length;
-        index++
-      ) {
-        if (this.places[this.city_index][index]["name"] == this.place) {
-          this.place_id = this.places[this.city_index][index]["id"];
+    getPlaces() {
+      axios
+        .get(store.state.server + "api/get_all_places/" + this.city_id)
+        .then((response) => {
+          this.places = response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    getPlaceId() {
+      for (let i = 0; i < this.places.length; i++) {
+        if (this.places[i].name == this.place) {
+          this.place_id = this.places[i].id;
           return;
         }
       }
@@ -936,6 +940,13 @@ export default {
           });
       }
     },
+    async getCiys() {
+      await store.dispatch("fetchCities");
+      this.cities = store.state.cities;
+    },
+  },
+  mounted() {
+    this.getCiys();
   },
 };
 </script>

@@ -1,0 +1,122 @@
+<template>
+  <div class="admin-real">
+    <SideBar>
+      <div class="search-bar">
+        <div class="number-add">
+          <div class="number sides">Realestates({{ data.length }})</div>
+        </div>
+        <div class="w-100 d-flex j-c-c a-i-c">
+          <input
+            type="text"
+            class="my-inp"
+            style="border: 1px solid black; margin-top: 10px"
+            v-model="search_for"
+            placeholder="Search by name"
+            v-on:input="searchData()"
+          />
+        </div>
+      </div>
+      <div
+        class="d-grid gap-3 j-c-c a-i-s my-3"
+        style="grid-template-columns: 25% 25% 25%"
+      >
+        <RealestateCard
+          v-for="(item, index) in shown_data"
+          :key="index"
+          :id="item.id"
+          :image="item.images[0].image"
+          :name="item.name"
+          :city="item.city.name"
+          :place="item.place.name"
+          :price="item.price"
+          :bathroom_number="item.num_of_bathrooms"
+          :livingroom_number="item.num_of_livingrooms"
+          is_dashboard="true"
+          is_admin="true"
+          :status="item.status"
+          :user="item.user_qq"
+          :company="item.user_qq.company"
+          :agent="item.user_qq.agent"
+        ></RealestateCard>
+      </div>
+    </SideBar>
+  </div>
+</template>
+
+<script>
+import SideBar from "@/components/DashBoards/AdminDashboard/SideBar.vue";
+import axios from "axios";
+import store from "@/store";
+import RealestateCard from "@/components/CardsComponents/RealestateCard.vue";
+export default {
+  name: "admin-real",
+  data() {
+    return {
+      data: [],
+      shown_data: [],
+      search_for: "",
+    };
+  },
+  components: {
+    SideBar,
+    RealestateCard,
+  },
+  methods: {
+    getData() {
+      axios
+        .get(store.state.server + "api/get_estates")
+        .then((response) => {
+          this.data = response.data;
+          this.searchData();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    searchData() {
+      this.shown_data = [];
+      if (this.search_for == "") {
+        this.shown_data = this.data;
+      } else {
+        this.shown_data = this.data.filter((item) => {
+          const name = item.name;
+          const nameLower = name.toLowerCase();
+          return nameLower.search(this.search_for.toLowerCase()) != -1;
+        });
+      }
+    },
+  },
+  mounted() {
+    this.getData();
+  },
+};
+</script>
+
+<style>
+.search-bar {
+  padding: 20px;
+}
+
+.number-add {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(180, 180, 180);
+  border-radius: 20px;
+  padding: 20px;
+}
+
+.sides {
+  width: 100%;
+}
+
+.number {
+  text-align: start;
+}
+
+.add {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+</style>

@@ -64,6 +64,7 @@
 import BackGround from "@/components/BackGround.vue";
 import axios from "axios";
 import store from "@/store";
+import router from "@/router";
 export default {
   name: "login-view",
   components: {
@@ -111,7 +112,21 @@ export default {
                   response.data.user.lname
               );
               window.sessionStorage.setItem("token", response.data.token);
+              window.sessionStorage.setItem(
+                "user_type",
+                response.data.user.type
+              );
               store.state.token = response.data.token;
+              store.state.user_type = response.data.user.type;
+              if (response.data.user.type == "admin") {
+                router.push("admin-home");
+              } else if (response.data.user.type == "company") {
+                router.push("company-home");
+              } else if (response.data.user.type == "agent") {
+                router.push("agent-home");
+              } else if (response.data.user.type == "user") {
+                router.push("/");
+              }
             }
           })
           .catch((error) => {
